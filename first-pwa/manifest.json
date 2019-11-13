@@ -1,0 +1,16 @@
+{
+    "name":"My First PWA",
+    "short_name":"My PWA",
+    "description":"Aplikasi PWA",
+    "start_url":"./index.html",
+    "display":"standalone",
+    "background_color":"#455a64",
+    "theme_color":"#455a64",
+    "icons":[
+        {
+            "src":"./images/ttt.png",
+            "sizes":"512x512",
+            "type":"image/png"
+        }
+    ]
+}
