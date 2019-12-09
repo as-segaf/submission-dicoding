@@ -39,6 +39,10 @@
         } else {
             console.log('service worker tidak didukung oleh browser');
         }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            getTeam();
+        })
     </script>
     <script src="./js/materialize.min.js"></script>
     <script src="./js/nav.js"></script>
