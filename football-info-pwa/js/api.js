@@ -78,19 +78,21 @@ fetch(url, {
 
 
 function getTeam() {
-    //ambili nilai query parameter(id)
-    var urlParams = new URLSearchParams(window.location.search);
-    var idParam = urlParams.get('id');
+    return new Promise(function(resolve,reject) {
+    
+      //ambili nilai query parameter(id)
+      var urlParams = new URLSearchParams(window.location.search);
+      var idParam = urlParams.get('id');
 
-    fetch('https://api.football-data.org/v2/teams/' + idParam, {
+      fetch('https://api.football-data.org/v2/teams/' + idParam, {
         method: 'GET',
         headers:{
             'X-Auth-Token' : '5384ecbdad5449188d971b6cc568f33a'
         }
-    })
-    .then(status)
-    .then(json)
-    .then(function(data) {
+      })
+      .then(status)
+      .then(json)
+      .then(function(data) {
         var teamHTML = `
           <div class="card">
             <div class="card-image waves-effect waves-block waves-light">
@@ -104,7 +106,9 @@ function getTeam() {
             </div>
           </div>
         `;
-        console.log(teamHTML);
+        console.log(data);
         document.getElementById('body-content').innerHTML = teamHTML;
-    })
+        resolve(data);
+      });
+    });
 }

@@ -23,6 +23,12 @@
 
     <div class="container" id="body-content"></div>
 
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red" id="save">
+            <i class="large material-icons">save</i>
+        </a>
+    </div>
+
     <script>
         // register service worker
         if ('serviceWorker' in navigator) {
@@ -41,11 +47,22 @@
         }
 
         document.addEventListener('DOMContentLoaded', function(){
-            getTeam();
-        })
+            var item = getTeam();
+
+            // save operation
+            var save = document.getElementById("save");
+            save.onclick = function() {
+                console.log("tombol di klik");
+                item.then(function(team) {
+                    saveTeam(team);
+                });
+            }
+        });
     </script>
     <script src="./js/materialize.min.js"></script>
     <script src="./js/nav.js"></script>
     <script src="./js/api.js"></script>
+    <script src="./js/idb.js"></script>
+    <script src="./js/db.js"></script>
 </body>
 </html>
