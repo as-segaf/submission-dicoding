@@ -67,7 +67,7 @@ fetch(url, {
 
     });
     // sisipkan 
-    // console.log(data.standings[0].table);
+    console.log(data.standings[0].table);
     document.getElementById("body-content").innerHTML = tableData;  
     document.getElementById("tes").innerHTML = listClub;  
     
@@ -77,7 +77,7 @@ fetch(url, {
 }
 
 
-function getTeam() {
+function getTeamById() {
     return new Promise(function(resolve,reject) {
     
       //ambili nilai query parameter(id)
@@ -106,9 +106,76 @@ function getTeam() {
             </div>
           </div>
         `;
-        console.log(data);
         document.getElementById('body-content').innerHTML = teamHTML;
         resolve(data);
+        console.log(data);
       });
+    });
+}
+
+function getSavedTeams() {
+    getAll().then(function(teams) {
+        console.log(teams);
+        var tableData = `
+        <div class='list'>
+            <table class='highlight responsive-table'>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Klub</th>
+                        <th>Pilihan</th>
+                    </tr>
+                </thead>
+                <tbody id='tes'>
+                
+                </tbody>
+            </table>
+        </div>`;
+    
+    
+        var listClub = '';
+        var i = 1;
+        teams.forEach(function(team) {
+            listClub += `
+            <tr style="cursor:pointer" onclick="location.href='./db.html?id=${team.id}'">
+                <td>${i++}</td>
+                <td>${team.name}</td>
+            </tr>
+            `;
+
+        });
+        // sisipkan 
+        // console.log(data.standings[0].table);
+        document.getElementById("body-content").innerHTML = tableData;  
+        document.getElementById("tes").innerHTML = listClub;
+    });
+}
+
+function getSavedTeamById() {
+    return new Promise(function(resolve, reject) {
+
+        var urlParams= new URLSearchParams(window.location.search);
+        var idParam = urlParams.get("id");
+
+        getById(Number(idParam)).then(function(team) {
+            dbHTML = '';
+            var dbHTML = `
+              <div class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img src="${team.crestUrl}" />
+                </div>
+                <div class="card-content">
+                  <span class="card-title">${team.name}</span>
+                  <p>Stadium : ${team.venue}</p>
+                  <p>Address : ${team.address}</p>
+                  <p>Website : <a href='${team.website}'>${team.website}</a></p>
+                </div>
+              </div>
+            `;
+            document.getElementById('body-content').innerHTML = dbHTML;
+            console.log(team);
+            resolve(team.id);
+        });
+
     });
 }
