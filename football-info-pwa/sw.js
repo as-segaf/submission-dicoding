@@ -1,16 +1,20 @@
 const CACHE_NAME = "football";
 var urlsToChace = [
-    '/',
+    './',
     './index.html',
     './nav.html',
+    './db.html',
     './team.html',
     './pages/about.html',
     './pages/contact.html',
     './pages/home.html',
+    './pages/saved.html',
     './js/api.js',
     './js/materialize.min.js',
     './js/nav.js',
-    './css/materialize.css',
+    './js/db.js',
+    './js/idb.js',
+    './css/materialize.min.css',
     './manifest.json',
 ];
 
@@ -50,7 +54,7 @@ self.addEventListener('fetch', function(event){
       );
   }  else {
       event.respondWith(
-          caches.match(event.request, {'ignoreSearch': true}).then(function(response) {
+          caches.match(event.request, { ignoreSearch: true }).then(function(response) {
               return response || fetch (event.request);
           })
       )
