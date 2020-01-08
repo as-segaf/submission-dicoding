@@ -1,4 +1,16 @@
 {
-    "name":"Push Notification FCM",
-    "gcm_sender_id":"286784193057"
+    "name":"Football-app",
+    "short_name":"Football-app",
+    "description":"Aplikasi sepak bola liga inggris",
+    "start_url":"./index.html",
+    "display":"standalone",
+    "background_color":"#00897B",
+    "theme_color":"#00897B",
+    "icon":[
+        {
+            "src":"icon.png",
+            "sizes":"512x512",
+            "type":"image/png"
+        }
+    ]
 }
