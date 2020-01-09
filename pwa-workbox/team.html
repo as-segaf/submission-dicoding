@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#00897B">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./css/materialize.min.css">
+    <link rel="apple-touch-icon" href="./icon.png">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Football Info App</title>
+</head>
+<body>
+    
+    <!-- Navigasi -->
+    <nav class="teal lighten-1" role="navigation">
+     <div class="new-wrapper container">
+         <a href="./" class="brand-logo" id="logo-container">Football Info</a>
+         <a href="#" class="sidenav-trigger" data-target="nav-mobile">☰</a>
+
+         <ul class="topnav right hide-on-med-and-down"></ul>
+         <ul class="sidenav" id="nav-mobile"></ul>
+        </div>   
+    </nav>
+    <!-- Akhir Navigasi -->
+    
+    <div class="container" id="body-content"></div>
+    
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red" id="save">
+            <i class="large material-icons">save</i>
+        </a>
+    </div>
+    
+    <script>
+        // register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load',function() {
+                navigator.serviceWorker
+                .register('./sw.js')
+                .then(function() {
+                    console.log('pendaftaran service worker berhasil');
+                })
+                .catch(function() {
+                    console.log('pendaftaran service worker gagal');
+                });
+            })
+        } else {
+            console.log('service worker tidak didukung oleh browser');
+        }
+        
+        document.addEventListener('DOMContentLoaded', function(){
+            var item = getTeamById();
+            
+            // save operation
+            var save = document.getElementById("save");
+            save.onclick = function() {
+                console.log("tombol di klik");
+                item.then(function(team) {
+                    saveTeam(team);
+                });
+            }
+        });
+    </script>
+    <script src="./js/materialize.min.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/idb.js"></script>
+    <script src="./js/db.js"></script>
+</body>
+</html>
