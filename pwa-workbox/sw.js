@@ -1,65 +1,50 @@
-const CACHE_NAME = "football";
-var urlsToChace = [
-    './',
-    './index.html',
-    './nav.html',
-    './db.html',
-    './team.html',
-    './pages/about.html',
-    './pages/contact.html',
-    './pages/home.html',
-    './pages/saved.html',
-    './js/api.js',
-    './js/materialize.min.js',
-    './js/nav.js',
-    './js/db.js',
-    './js/idb.js',
-    './css/materialize.min.css',
-    './manifest.json',
-];
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js');
 
-self.addEventListener("install", function(event) {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(function(cache) {
-            return cache.addAll(urlsToChace);
-        })
-    );
-});
+if (workbox) {
+    console.log('workbox berhasil dimuat');
+} else {
+    console.log('workbox gagal dimuat');
+}
 
-self.addEventListener("activate", function(event) {
-    event.waitUntil(
-        caches.keys().then(function(cacheNames) {
-            return Promise.all(
-                cacheNames.map(function(cacheName) {
-                    if (cacheName !== CACHE_NAME) {
-                        console.log("service worker: cache " + cacheName + " dihapus");
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
-    );
-});
+workbox.precaching.precacheAndRoute([
+    { url : './', revision: '1'},
+    { url : './index.html', revision: '1'},
+    { url : './nav.html', revision: '1'},
+    { url : './db.html', revision: '1'},
+    { url : './team.html', revision: '1'},
+    { url : './css/materialize.min.css', revision: '1'},
+    { url : './js/materialize.min.js', revision: '1'},
+    { url : './js/api.js', revision: '1'},
+    { url : './js/nav.js', revision: '1'},
+    { url : './js/db.js', revision: '1'},
+    { url : './js/idb.js', revision: '1'},
+    { url : './manifest.json', revision: '1'},
+    { url : './pages/home.html', revision: '1'},
+    { url : './pages/contact.html', revision: '1'},
+    { url : './pages/about.html', revision: '1'},
+    { url : './pages/saved.html', revision: '1'},
+    { url : './icon.png', revision: '1'}    
+])
 
-self.addEventListener('fetch', function(event){
-  const base_url = "https://api.football-data.org/v2/";
-  if (event.request.url.indexOf(base_url) > -1) {
-      event.respondWith(
-          caches.open(CACHE_NAME).then(function(cache) {
-              return fetch(event.request).then(function(response) {
-                  cache.put(event.request.url, response.clone());
-                  return response;
-              })
-          })
-      );
-  }  else {
-      event.respondWith(
-          caches.match(event.request, { ignoreSearch: true }).then(function(response) {
-              return response || fetch (event.request);
-          })
-      )
-  }
-});
+
+workbox.routing.registerRoute(
+    new RegExp('https://api.football-data.org/v2/'),
+    workbox.strategies.staleWhileRevalidate({
+        cacheName:'api-football',
+        plugins: [
+            new workbox.cacheableResponse.Plugin({
+                statuses: [200],
+            }),
+            new workbox.expiration.Plugin({
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+                maxEntries: 30,
+            }),
+        ]
+    })
+);
+
+
+
 
 self.addEventListener('push', function(event) {
     var body;
