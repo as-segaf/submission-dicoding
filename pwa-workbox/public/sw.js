@@ -24,7 +24,9 @@ workbox.precaching.precacheAndRoute([
     { url : './pages/about.html', revision: '1'},
     { url : './pages/saved.html', revision: '1'},
     { url : './icon.png', revision: '1'}    
-])
+], {
+    ignoreUrlParametersMatching: [/.*/]
+});
 
 
 workbox.routing.registerRoute(
