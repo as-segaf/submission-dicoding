@@ -1,0 +1,2 @@
+Url firebase hosting: https://football-app-5e803.firebaseapp.com,
+Url github pages: as-segaf.github.io
